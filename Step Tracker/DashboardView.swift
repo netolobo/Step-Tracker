@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DashboardView.swift
 //  Step Tracker
 //
 //  Created by Neto Lobo on 17/06/24.
@@ -22,7 +22,7 @@ enum HelthMetricContext: CaseIterable, Identifiable {
     var id: Self { self }
 }
 
-struct ContentView: View {
+struct DashboardView: View {
     @State private var selectedStat: HelthMetricContext = .steps
     private var isSteps: Bool { selectedStat == .steps }
     var body: some View {
@@ -90,7 +90,7 @@ struct ContentView: View {
             .padding()
             .navigationTitle("Dashboard")
             .navigationDestination(for: HelthMetricContext.self) { metric in
-                Text(metric.title)
+                HealthDataListView(metric: metric)
             }
         }
         .tint(isSteps ? .pink : .indigo)
@@ -98,5 +98,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    DashboardView()
 }
