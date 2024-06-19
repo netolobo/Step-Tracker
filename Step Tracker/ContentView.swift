@@ -7,62 +7,93 @@
 
 import SwiftUI
 
+enum HelthMetricContext: CaseIterable, Identifiable {
+    case steps, weight
+    
+    var title: String {
+        switch self {
+        case .steps:
+            return "Steps"
+        case .weight:
+            return "Weight"
+        }
+    }
+    
+    var id: Self { self }
+}
+
 struct ContentView: View {
+    @State private var selectedStat: HelthMetricContext = .steps
+    private var isSteps: Bool { selectedStat == .steps }
     var body: some View {
         NavigationStack {
-            VStack {
-                VStack {
-                    VStack {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Label("Steps", systemImage: "figure.walk")
-                                    .font(.title3.bold())
-                                    .foregroundColor(.pink)
-                                
-                                Text("Avg: 10k Steps")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                            
-                            Spacer()
-                            
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.secondary)
+            ScrollView {
+                VStack(spacing: 20) {
+                    Picker("Selected stat", selection: $selectedStat) {
+                        ForEach(HelthMetricContext.allCases) { metric in
+                            Text(metric.title)
                         }
-                        .padding(.bottom, 12)
-                        
-                        RoundedRectangle(cornerRadius: 12)
-                            .foregroundStyle(.secondary)
-                            .frame(height: 150)
                     }
-                }
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
-                
-                VStack {
-                    VStack(alignment: .leading) {
-                            VStack(alignment: .leading) {
-                                Label("Averages", systemImage: "calendar")
-                                    .font(.title3.bold())
-                                    .foregroundColor(.pink)
-                                
-                                Text("Last 28 Days")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                    .pickerStyle(.segmented)
+                    
+                    VStack {
+                        VStack {
+                            NavigationLink(value: selectedStat) {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Label("Steps", systemImage: "figure.walk")
+                                            .font(.title3.bold())
+                                            .foregroundColor(.pink)
+                                        
+                                        Text("Avg: 10k Steps")
+                                            .font(.caption)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    Image(systemName: "chevron.right")
+                                }
                             }
-                        .padding(.bottom, 12)
-                        
-                        RoundedRectangle(cornerRadius: 12)
+                            .padding(.bottom, 12)
                             .foregroundStyle(.secondary)
-                            .frame(height: 240)
+                            
+                            RoundedRectangle(cornerRadius: 12)
+                                .foregroundStyle(.secondary)
+                                .frame(height: 150)
+                        }
                     }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+                    
+                    VStack {
+                        VStack(alignment: .leading) {
+                                VStack(alignment: .leading) {
+                                    Label("Averages", systemImage: "calendar")
+                                        .font(.title3.bold())
+                                        .foregroundColor(.pink)
+                                    
+                                    Text("Last 28 Days")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            .padding(.bottom, 12)
+                            
+                            RoundedRectangle(cornerRadius: 12)
+                                .foregroundStyle(.secondary)
+                                .frame(height: 240)
+                        }
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
                 }
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
             }
             .padding()
             .navigationTitle("Dashboard")
+            .navigationDestination(for: HelthMetricContext.self) { metric in
+                Text(metric.title)
+            }
         }
+        .tint(isSteps ? .pink : .indigo)
     }
 }
 
