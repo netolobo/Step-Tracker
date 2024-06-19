@@ -12,6 +12,7 @@
 		5AD051622C2084F40083E9F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AD051612C2084F40083E9F9 /* Assets.xcassets */; };
 		5AD051652C2084F40083E9F9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AD051642C2084F40083E9F9 /* Preview Assets.xcassets */; };
 		5AD0516C2C2323980083E9F9 /* HealthDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0516B2C2323980083E9F9 /* HealthDataListView.swift */; };
+		5AD0516E2C2330240083E9F9 /* HealthKitPremissionPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0516D2C2330240083E9F9 /* HealthKitPremissionPrimingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		5AD051612C2084F40083E9F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5AD051642C2084F40083E9F9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5AD0516B2C2323980083E9F9 /* HealthDataListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataListView.swift; sourceTree = "<group>"; };
+		5AD0516D2C2330240083E9F9 /* HealthKitPremissionPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPremissionPrimingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,9 +57,10 @@
 			children = (
 				5AD0515D2C2084F30083E9F9 /* Step_TrackerApp.swift */,
 				5AD0515F2C2084F30083E9F9 /* DashboardView.swift */,
+				5AD0516B2C2323980083E9F9 /* HealthDataListView.swift */,
 				5AD051612C2084F40083E9F9 /* Assets.xcassets */,
 				5AD051632C2084F40083E9F9 /* Preview Content */,
-				5AD0516B2C2323980083E9F9 /* HealthDataListView.swift */,
+				5AD0516D2C2330240083E9F9 /* HealthKitPremissionPrimingView.swift */,
 			);
 			path = "Step Tracker";
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 				5AD0516C2C2323980083E9F9 /* HealthDataListView.swift in Sources */,
 				5AD051602C2084F30083E9F9 /* DashboardView.swift in Sources */,
 				5AD0515E2C2084F30083E9F9 /* Step_TrackerApp.swift in Sources */,
+				5AD0516E2C2330240083E9F9 /* HealthKitPremissionPrimingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
