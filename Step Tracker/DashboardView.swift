@@ -23,6 +23,7 @@ enum HelthMetricContext: CaseIterable, Identifiable {
 }
 
 struct DashboardView: View {
+    @Environment(HealthKitManager.self) private var hkManager
     @AppStorage("hasSeenPermissionPriming") private var hasSeenPermissionPriming = false
     @State private var isShowingPermissionPrimingSheet = false
     @State private var selectedStat: HelthMetricContext = .steps
@@ -91,7 +92,9 @@ struct DashboardView: View {
                 }
             }
             .padding()
-            .onAppear { isShowingPermissionPrimingSheet = !hasSeenPermissionPriming }
+            .task {
+                isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
+            }
             .navigationTitle("Dashboard")
             .navigationDestination(for: HelthMetricContext.self) { metric in
                 HealthDataListView(metric: metric)

@@ -62,10 +62,10 @@
 				5AD0515D2C2084F30083E9F9 /* Step_TrackerApp.swift */,
 				5AD0515F2C2084F30083E9F9 /* DashboardView.swift */,
 				5AD0516B2C2323980083E9F9 /* HealthDataListView.swift */,
-				5AD051612C2084F40083E9F9 /* Assets.xcassets */,
-				5AD051632C2084F40083E9F9 /* Preview Content */,
 				5AD0516D2C2330240083E9F9 /* HealthKitPremissionPrimingView.swift */,
 				5AD051702C244C150083E9F9 /* HealthKitManager.swift */,
+				5AD051612C2084F40083E9F9 /* Assets.xcassets */,
+				5AD051632C2084F40083E9F9 /* Preview Content */,
 			);
 			path = "Step Tracker";
 			sourceTree = "<group>";
