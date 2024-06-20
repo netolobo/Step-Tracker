@@ -29,6 +29,11 @@ struct DashboardView: View {
     @State private var isShowingPermissionPrimingSheet = false
     @State private var selectedStat: HelthMetricContext = .steps
     private var isSteps: Bool { selectedStat == .steps }
+    var avgStepCount: Double {
+        guard !hkManager.stepData.isEmpty else { return 0}
+        let totalSteps = hkManager.stepData.reduce(0) { $0 + $1.value }
+        return totalSteps/Double(hkManager.stepData.count)
+    }
     
     var body: some View {
         NavigationStack {
@@ -50,7 +55,7 @@ struct DashboardView: View {
                                             .font(.title3.bold())
                                             .foregroundColor(.pink)
                                         
-                                        Text("Avg: 10k Steps")
+                                        Text("Avg: \(Int(avgStepCount))")
                                             .font(.caption)
                                     }
                                     
@@ -63,14 +68,32 @@ struct DashboardView: View {
                             .foregroundStyle(.secondary)
                             
                             Chart {
+                                RuleMark(y: .value("Average", avgStepCount))
+                                    .foregroundStyle(.secondary)
+                                    .lineStyle(.init(lineWidth: 1, dash: [5]))
+                                
                                 ForEach(hkManager.stepData) { steps in
                                     BarMark(
                                         x: .value("Date", steps.date, unit: .day),
                                         y: .value("Steps",steps.value)
                                     )
+                                    .foregroundStyle(Color.pink.gradient)
                                 }
                             }
                             .frame(height: 150)
+                            .chartXAxis {
+                                AxisMarks {
+                                    AxisValueLabel(format: .dateTime.month(.defaultDigits).day())
+                                }
+                            }
+                            .chartYAxis {
+                                AxisMarks { value in
+                                    AxisGridLine()
+                                        .foregroundStyle(.secondary.opacity(0.3))
+                                    
+                                    AxisValueLabel((value.as(Double.self) ?? 0).formatted(.number.notation(.compactName)))
+                                }
+                            }
                         }
                     }
                     .padding()
