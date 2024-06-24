@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeekDayChart: Identifiable {
+struct WeekDayChartData: Identifiable {
     let id = UUID()
     let date: Date
     let value: Double
