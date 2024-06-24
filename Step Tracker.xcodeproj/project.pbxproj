@@ -21,6 +21,7 @@
 		5AD0517F2C29B2E30083E9F9 /* ChartDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD0517E2C29B2E30083E9F9 /* ChartDataTypes.swift */; };
 		5AD051822C29B4340083E9F9 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD051812C29B4340083E9F9 /* Date+Ext.swift */; };
 		5AD051852C29B6E90083E9F9 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 5AD051842C29B6E90083E9F9 /* Algorithms */; };
+		5AD051872C29BEE70083E9F9 /* StepPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD051862C29BEE70083E9F9 /* StepPieChart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		5AD0517C2C29B2860083E9F9 /* ChartMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartMath.swift; sourceTree = "<group>"; };
 		5AD0517E2C29B2E30083E9F9 /* ChartDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataTypes.swift; sourceTree = "<group>"; };
 		5AD051812C29B4340083E9F9 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		5AD051862C29BEE70083E9F9 /* StepPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPieChart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				5AD051742C29A70B0083E9F9 /* StepBarChart.swift */,
+				5AD051862C29BEE70083E9F9 /* StepPieChart.swift */,
 				5AD0517C2C29B2860083E9F9 /* ChartMath.swift */,
 				5AD0517E2C29B2E30083E9F9 /* ChartDataTypes.swift */,
 			);
@@ -223,6 +226,7 @@
 				5AD051822C29B4340083E9F9 /* Date+Ext.swift in Sources */,
 				5AD0517F2C29B2E30083E9F9 /* ChartDataTypes.swift in Sources */,
 				5AD051712C244C150083E9F9 /* HealthKitManager.swift in Sources */,
+				5AD051872C29BEE70083E9F9 /* StepPieChart.swift in Sources */,
 				5AD0516E2C2330240083E9F9 /* HealthKitPremissionPrimingView.swift in Sources */,
 				5AD051732C247BB50083E9F9 /* HealthMetric.swift in Sources */,
 			);
