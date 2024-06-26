@@ -11,6 +11,9 @@ import Charts
 struct WeightLineChart: View {
     var selectedStat: HealthMetricContext
     var chartdata: [HealthMetric]
+    var minValue: Double {
+        chartdata.map{ $0.value }.min() ?? 0 //get the mininum value of the array
+    }
     
     var body: some View {
         VStack {
@@ -38,17 +41,39 @@ struct WeightLineChart: View {
                     ForEach(chartdata) { weight in
                         AreaMark(
                             x: .value("Day", weight.date, unit: .day),
-                            y: .value("Value", weight.value)
+                            yStart: .value("Value", weight.value),
+                            yEnd: .value("Min Value", minValue)
                         )
-                        .foregroundStyle(Gradient(colors: [.blue.opacity(0.5), .clear]))
+                        .foregroundStyle(Gradient(colors: [.indigo.opacity(0.5), .clear]))
                         
                         LineMark(
                             x: .value("Day", weight.date, unit: .day),
                             y: .value("Value", weight.value)
                         )
+                        .foregroundStyle(.indigo)
+                        .interpolationMethod(.catmullRom)
+                        .symbol(.circle)
                     }
+                    
+                    RuleMark(y: .value("Goal", 155))
+                        .foregroundStyle(.mint)
+                        .lineStyle(.init(lineWidth: 1, dash: [5]))
                 }
                 .frame(height: 150)
+                .chartYScale(domain: .automatic(includesZero: false))
+                .chartXAxis {
+                    AxisMarks {
+                        AxisValueLabel(format: .dateTime.month(.defaultDigits).day())
+                    }
+                }
+                .chartYAxis {
+                    AxisMarks { value in
+                        AxisGridLine()
+                            .foregroundStyle(.secondary.opacity(0.3))
+                        
+                        AxisValueLabel()
+                    }
+                }
             }
         }
         .padding()
