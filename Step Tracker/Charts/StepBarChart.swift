@@ -15,7 +15,7 @@ struct StepBarChart: View {
     var chartdata: [HealthMetric]
     
     var avgStepCount: Double {
-        guard !chartdata.isEmpty else { return 0}
+        guard !chartdata.isEmpty else { return 0 }
         let totalSteps = chartdata.reduce(0) { $0 + $1.value }
         return totalSteps/Double(chartdata.count)
     }
