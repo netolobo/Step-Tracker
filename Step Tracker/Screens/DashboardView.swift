@@ -29,13 +29,13 @@ struct DashboardView: View {
                     
                     switch selectedStat {
                     case .steps:
-                        StepBarChart(selectedStat: selectedStat, chartdata: hkManager.stepData)
+                        StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
                         
                         StepPieChart(chartData: ChartMath.averageWeekDayCount(for: hkManager.stepData))
                     case .weight:
-                        WeightLineChart(selectedStat: selectedStat, chartdata: hkManager.weightData)
+                        WeightLineChart(selectedStat: selectedStat, chartData: hkManager.weightData)
                         
-                        WeightBarChart(chartdata: ChartMath.averageDailyWeightDiffs(for: hkManager.weightDiffData))
+                        WeightBarChart(chartData: ChartMath.averageDailyWeightDiffs(for: hkManager.weightDiffData))
                     }
                 }
             }
