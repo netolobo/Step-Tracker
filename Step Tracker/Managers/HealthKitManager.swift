@@ -33,7 +33,7 @@ enum STError: Error, LocalizedError {
         case .authNotDetermined:
             "You have not given acess to your Health data. Please go to Settings > Health > Data Access & Devices."
         case .sharingDenied(let quantityType):
-            "You have denied acess to upload your \(quantityType) data. \n\nYou can change this in Settings > Health > Data Access $ Devices."
+            "You have denied acess to upload your \(quantityType) data. \n\nYou can change this in Settings > Health > Data Access & Devices."
         case .noData:
             "There is no data for this Health statistic"
         case .unbableToCompleteRequest:
