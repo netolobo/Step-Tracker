@@ -26,27 +26,12 @@ struct WeightLineChart: View {
     }
     
     var body: some View {
-        VStack {
-            VStack {
-                NavigationLink(value: selectedStat) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Label("Weight", systemImage: "figure")
-                                .font(.title3.bold())
-                                .foregroundColor(.indigo)
-                            
-                            Text("Avg: 180 lbs")
-                                .font(.caption)
-                        }
-                        
-                        Spacer()
-                        
-                        Image(systemName: "chevron.right")
-                    }
-                }
-                .padding(.bottom, 12)
-                .foregroundStyle(.secondary)
-                
+        ChartContainer(
+            title: "Weight",
+            symbol: "figure",
+            subtitle: "Avg: 180 lbs",
+            context: .weight,
+            isNave: true) {
                 if chartData.isEmpty {
                     ChartEmptyView(systemImageName: "chart.line.downtrend.xyaxis", title: "No Data", description: "There is no weight count data from the Health App")
                 } else {
@@ -99,15 +84,12 @@ struct WeightLineChart: View {
                     }
                 }
             }
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
-        .sensoryFeedback(.selection, trigger: selectedDay)
-        .onChange(of: rawSelectedDate) { oldValue, newValue in
-            if oldValue?.weekdayInt != newValue?.weekdayInt {
-                selectedDay = newValue
+            .sensoryFeedback(.selection, trigger: selectedDay)
+            .onChange(of: rawSelectedDate) { oldValue, newValue in
+                if oldValue?.weekdayInt != newValue?.weekdayInt {
+                    selectedDay = newValue
+                }
             }
-        }
     }
     
     var annotationView: some View {
