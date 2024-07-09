@@ -12,9 +12,9 @@ struct WeightBarChart: View {
     @State private var rawSelectedDate: Date?
     @State private var selectedDay: Date?
     
-    var chartData: [WeekDayChartData]
+    var chartData: [DateValueChartData]
     
-    var selectedData: WeekDayChartData? {
+    var selectedData: DateValueChartData? {
         guard let rawSelectedDate else { return nil }
         return chartData.first {
             Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)

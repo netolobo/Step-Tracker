@@ -9,11 +9,11 @@ import Foundation
 import Algorithms
 
 struct ChartMath {
-    static func averageWeekDayCount(for metric: [HealthMetric]) -> [WeekDayChartData] {
+    static func averageWeekDayCount(for metric: [HealthMetric]) -> [DateValueChartData] {
         let sortedbyWeekday = metric.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
         let weekdayArray = sortedbyWeekday.chunked { $0.date.weekdayInt == $1.date.weekdayInt }
         
-        var weekDayChartData: [WeekDayChartData] = []
+        var weekDayChartData: [DateValueChartData] = []
         
         for array in weekdayArray {
             guard let firstValue = array.first else { continue }
@@ -25,7 +25,7 @@ struct ChartMath {
         return weekDayChartData
     }
     
-    static func averageDailyWeightDiffs(for weights: [HealthMetric]) -> [WeekDayChartData]{
+    static func averageDailyWeightDiffs(for weights: [HealthMetric]) -> [DateValueChartData]{
         var diffValues: [(date: Date, value: Double)] = []
         
         guard weights.count > 1 else { return [] }
@@ -39,7 +39,7 @@ struct ChartMath {
         let sortedbyWeekday = diffValues.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
         let weekdayArray = sortedbyWeekday.chunked { $0.date.weekdayInt == $1.date.weekdayInt }
         
-        var weekDayChartData: [WeekDayChartData] = []
+        var weekDayChartData: [DateValueChartData] = []
         
         for array in weekdayArray {
             guard let firstValue = array.first else { continue }
