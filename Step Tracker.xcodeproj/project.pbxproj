@@ -106,7 +106,6 @@
 				5AD051782C29AEF10083E9F9 /* Screens */,
 				5AD051612C2084F40083E9F9 /* Assets.xcassets */,
 				5AD051632C2084F40083E9F9 /* Preview Content */,
-				5A343B1E2C344DC000AF758C /* ChartEmptyView.swift */,
 			);
 			path = "Step Tracker";
 			sourceTree = "<group>";
@@ -141,6 +140,7 @@
 				5A343B242C3C2D8F00AF758C /* ChartContainer.swift */,
 				5A343B262C3D60E500AF758C /* ChartHelper.swift */,
 				5A343B282C3D64CB00AF758C /* ChartAnnotationView.swift */,
+				5A343B1E2C344DC000AF758C /* ChartEmptyView.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
