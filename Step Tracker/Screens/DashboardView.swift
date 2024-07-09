@@ -15,7 +15,7 @@ struct DashboardView: View {
     @State private var isShowingAlert: Bool = false
     @State private var fetchError: STError = .noData
     private var isSteps: Bool { selectedStat == .steps }
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -29,13 +29,13 @@ struct DashboardView: View {
                     
                     switch selectedStat {
                     case .steps:
-                        StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
+                        StepBarChart(chartData: ChartHelper.convert(data: hkManager.stepData))
                         
                         StepPieChart(chartData: ChartMath.averageWeekDayCount(for: hkManager.stepData))
                     case .weight:
-                        WeightLineChart(selectedStat: selectedStat, chartData: hkManager.weightData)
+                        WeightLineChart(chartData: ChartHelper.convert(data: hkManager.weightData))
                         
-                        WeightBarChart(chartData: ChartMath.averageDailyWeightDiffs(for: hkManager.weightDiffData))
+                        WeightDiffBarChart(chartData: ChartMath.averageDailyWeightDiffs(for: hkManager.weightDiffData))
                     }
                 }
             }

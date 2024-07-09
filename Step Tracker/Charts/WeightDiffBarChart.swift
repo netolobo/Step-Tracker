@@ -8,17 +8,14 @@
 import SwiftUI
 import Charts
 
-struct WeightBarChart: View {
+struct WeightDiffBarChart: View {
     @State private var rawSelectedDate: Date?
     @State private var selectedDay: Date?
     
     var chartData: [DateValueChartData]
     
     var selectedData: DateValueChartData? {
-        guard let rawSelectedDate else { return nil }
-        return chartData.first {
-            Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
-        }
+        ChartHelper.parseSelectedData(from: chartData, in: rawSelectedDate) 
     }
     
     var body: some View {
@@ -40,7 +37,7 @@ struct WeightBarChart: View {
                             .annotation(
                                 position: .top,
                                 spacing: 0,
-                                overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) { annotationView }
+                                overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) { ChartAnnotationView(data: selectedData, context: .weight) }
                     }
 
                     ForEach(chartData) { weightDiff in
@@ -76,27 +73,8 @@ struct WeightBarChart: View {
             }
         }
     }
-    
-    var annotationView: some View {
-        VStack(alignment: .leading) {
-            Text(selectedData?.date ?? .now,
-                 format: .dateTime.weekday(.abbreviated).month(.abbreviated).day())
-            .font(.footnote.bold())
-            .foregroundStyle(.secondary)
-            
-            Text(selectedData?.value ?? 0, format: .number.precision(.fractionLength(2)))
-                .fontWeight(.heavy)
-                .foregroundStyle((selectedData?.value ?? 0) >= 0 ? .indigo : .mint)
-        }
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: 4)
-                .fill(Color.init(.secondarySystemBackground))
-                .shadow(color: .secondary.opacity(0.3), radius: 2, x: 2, y: 2)
-        )
-    }
 }
 
 #Preview {
-    WeightBarChart(chartData: MockData.weightsDiffs)
+    WeightDiffBarChart(chartData: MockData.weightsDiffs)
 }
