@@ -22,24 +22,22 @@ struct WeightLineChart: View {
     }
     
     var body: some View {
-        ChartContainer(
-            title: "Weight",
-            symbol: "figure",
-            subtitle: "Avg: 180 lbs",
-            context: .weight,
-            isNave: true) {
+        let config = ChartContainerConfiguration(title: "Weight",
+                                                symbol: "figure",
+                                                subtitle: "Avg: 180 lbs",
+                                                context: .weight,
+                                                isNave: true)
+        ChartContainer(config: config) {
                 if chartData.isEmpty {
-                    ChartEmptyView(systemImageName: "chart.line.downtrend.xyaxis", title: "No Data", description: "There is no weight count data from the Health App")
+                    ChartEmptyView(
+                        systemImageName: "chart.line.downtrend.xyaxis",
+                        title: "No Data",
+                        description: "There is no weight count data from the Health App"
+                    )
                 } else {
                     Chart {
                         if let selectedData {
-                            RuleMark(x: .value("Selected metric", selectedData.date, unit: .day))
-                                .foregroundStyle(.secondary.opacity(0.3))
-                                .offset(y: -10)
-                                .annotation(
-                                    position: .top,
-                                    spacing: 0,
-                                    overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) { ChartAnnotationView(data: selectedData, context: .weight) }
+                            ChartAnnotationView(data: selectedData, context: .weight)
                         }
                         ForEach(chartData) { weight in
                             AreaMark(

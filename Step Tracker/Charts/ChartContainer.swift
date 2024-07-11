@@ -7,19 +7,23 @@
 
 import SwiftUI
 
-struct ChartContainer<Content: View>: View {
+struct ChartContainerConfiguration {
     let title: String
     let symbol: String
     let subtitle: String
     let context: HealthMetricContext
     let isNave: Bool
+}
+
+struct ChartContainer<Content: View>: View {
+    let config: ChartContainerConfiguration
     
     @ViewBuilder var content: () -> Content
     
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
-                if isNave {
+                if config.isNave {
                     navigationLinkView
                 } else {
                     titleView
@@ -35,7 +39,7 @@ struct ChartContainer<Content: View>: View {
     }
     
     var navigationLinkView: some View {
-        NavigationLink(value: context) {
+        NavigationLink(value: config.context) {
             HStack {
                 titleView
                 
@@ -50,16 +54,25 @@ struct ChartContainer<Content: View>: View {
     
     var titleView: some View {
         VStack(alignment: .leading) {
-            Label(title, systemImage: symbol)
+            Label(config.title, systemImage: config.symbol)
                 .font(.title3.bold())
-                .foregroundColor(context == .steps ? .pink : .indigo)
+                .foregroundColor(config.context == .steps ? .pink : .indigo)
             
-            Text(subtitle)
+            Text(config.subtitle)
                 .font(.caption)
         }
     }
 }
 
 #Preview {
-    ChartContainer(title: "Test title", symbol: "figure.walk", subtitle: "Test Subtitle", context: .steps, isNave: true, content: { Text ("Chart goes here")})
+    ChartContainer(
+        config: .init(
+        title: "Test title",
+        symbol: "figure.walk",
+        subtitle: "Test Subtitle",
+        context: .steps,
+        isNave: true
+    ),
+       content: { Text ("Chart goes here") }
+    )
 }

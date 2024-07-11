@@ -19,25 +19,23 @@ struct StepBarChart: View {
         ChartHelper.parseSelectedData(from: chartData, in: rawSelectedDate)    }
     
     var body: some View {
+        let config = ChartContainerConfiguration(title: "Steps",
+                                                 symbol: "figure.walk",
+                                                 subtitle: "Avg: \(Int(ChartHelper.averageValue(for: chartData))) steps",
+                                                 context: .steps,
+                                                 isNave: true)
         
-        ChartContainer(
-            title: "Steps",
-            symbol: "figure.walk",
-            subtitle: "Avg: \(Int(ChartHelper.averageValue(for: chartData))) steps",
-            context: .steps,
-            isNave: true) {
+        ChartContainer(config: config) {
             if chartData.isEmpty {
-                ChartEmptyView(systemImageName: "chart.bar", title: "No Data", description: "There is no step count data from the Health App")
+                ChartEmptyView(
+                    systemImageName: "chart.bar",
+                    title: "No Data",
+                    description: "There is no step count data from the Health App"
+                )
             } else {
                 Chart {
                     if let selectedData {
-                        RuleMark(x: .value("Selected metric", selectedData.date, unit: .day))
-                            .foregroundStyle(.secondary.opacity(0.3))
-                            .offset(y: -10)
-                            .annotation(
-                                position: .top,
-                                spacing: 0,
-                                overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) { ChartAnnotationView(data: selectedData, context: .steps) }
+                        ChartAnnotationView(data: selectedData, context: .steps)
                     }
                     RuleMark(y: .value("Average", ChartHelper.averageValue(for: chartData)))
                         .foregroundStyle(.secondary)

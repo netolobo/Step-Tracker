@@ -24,14 +24,18 @@ struct StepPieChart: View {
     }
     
     var body: some View {
-        ChartContainer(
-            title: "Averages",
-            symbol: "calendar",
-            subtitle: "Last 28 Days",
-            context: .steps,
-            isNave: false) {
+        let config = ChartContainerConfiguration(title: "Averages",
+                                                 symbol: "calendar",
+                                                 subtitle: "Last 28 Days",
+                                                 context: .steps,
+                                                 isNave: false)
+        ChartContainer(config: config) {
                 if chartData.isEmpty {
-                    ChartEmptyView(systemImageName: "chart.pie", title: "No Data", description: "There is no step count data from the Health App")
+                    ChartEmptyView(
+                        systemImageName: "chart.pie",
+                        title: "No Data",
+                        description: "There is no step count data from the Health App"
+                    )
                 } else {
                     Chart {
                         ForEach(chartData) { weekDay in
