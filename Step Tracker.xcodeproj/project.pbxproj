@@ -30,6 +30,7 @@
 		5AD051852C29B6E90083E9F9 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 5AD051842C29B6E90083E9F9 /* Algorithms */; };
 		5AD051872C29BEE70083E9F9 /* StepPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD051862C29BEE70083E9F9 /* StepPieChart.swift */; };
 		5AFB44C02C4022E40026D471 /* STError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB44BF2C4022E40026D471 /* STError.swift */; };
+		5AFB44C22C4EA21A0026D471 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB44C12C4EA21A0026D471 /* Array+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		5AD051812C29B4340083E9F9 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		5AD051862C29BEE70083E9F9 /* StepPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPieChart.swift; sourceTree = "<group>"; };
 		5AFB44BF2C4022E40026D471 /* STError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STError.swift; sourceTree = "<group>"; };
+		5AFB44C12C4EA21A0026D471 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				5AD051812C29B4340083E9F9 /* Date+Ext.swift */,
+				5AFB44C12C4EA21A0026D471 /* Array+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AFB44C22C4EA21A0026D471 /* Array+Ext.swift in Sources */,
 				5AD0517D2C29B2860083E9F9 /* ChartMath.swift in Sources */,
 				5AD0516C2C2323980083E9F9 /* HealthDataListView.swift in Sources */,
 				5A343B272C3D60E500AF758C /* ChartHelper.swift in Sources */,
