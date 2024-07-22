@@ -9,44 +9,6 @@ import Foundation
 import HealthKit
 import Observation
 
-enum STError: Error, LocalizedError {
-    case authNotDetermined
-    case sharingDenied(HKQuantityType: String)
-    case noData
-    case unbableToCompleteRequest
-    case invalidValue
-    
-    var errorDescription: String? {
-        switch self {
-        case .authNotDetermined:
-            "Need Acess to Health Data"
-        case .sharingDenied(_):
-            "No Write Acess"
-        case .noData:
-            "No Data"
-        case .unbableToCompleteRequest:
-            "Unable to Complete Request"
-        case .invalidValue:
-            "Invalid Value"
-        }
-    }
-    
-    var failureReason: String {
-        switch self {
-        case .authNotDetermined:
-            "You have not given acess to your Health data. Please go to Settings > Health > Data Access & Devices."
-        case .sharingDenied(let quantityType):
-            "You have denied acess to upload your \(quantityType) data. \n\nYou can change this in Settings > Health > Data Access & Devices."
-        case .noData:
-            "There is no data for this Health statistic"
-        case .unbableToCompleteRequest:
-            "We are unable to comple your requeste at this time.\n\nPlease try again later or contact support."
-        case .invalidValue:
-            "Must be a numeric value with a maximum of one decimal place."
-        }
-    }
-}
-
 @Observable class HealthKitManager {
     let store = HKHealthStore()
     let types: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
@@ -54,30 +16,26 @@ enum STError: Error, LocalizedError {
     var weightData: [HealthMetric] = []
     var weightDiffData: [HealthMetric] = []
     
-    func fetchStepsCount() async throws {
+    func fetchStepsCount() async throws -> [HealthMetric] {
         guard store.authorizationStatus(for: HKQuantityType(.stepCount)) != .notDetermined else {
             throw STError.authNotDetermined
         }
 
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
-        let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
-        let startDate = calendar.date(byAdding: .day, value: -28, to: endDate)
-        
-        let queryPredicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
+        let interval = createDateInterval(from: .now, daysBack: 28)
+        let queryPredicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end)
         let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.stepCount), predicate: queryPredicate)
         
         let stepsQuery = HKStatisticsCollectionQueryDescriptor(
             predicate: samplePredicate,
             options: .cumulativeSum,
-            anchorDate: endDate,
+            anchorDate: interval.end,
             intervalComponents: .init(day: 1)
         )
         
         do {
             let stepCounts = try await stepsQuery.result(for: store)
             
-            stepData = stepCounts.statistics().map {
+            return stepCounts.statistics().map {
                 .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: .count()) ?? 0)
             }
         } catch HKError.errorNoData {
@@ -87,29 +45,25 @@ enum STError: Error, LocalizedError {
         }
     }
     
-    func fetchWeights() async throws {
+    func fetchWeights(daysBack: Int) async throws -> [HealthMetric] {
         guard store.authorizationStatus(for: HKQuantityType(.bodyMass)) != .notDetermined else {
             throw STError.authNotDetermined
         }
         
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
-        let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
-        let startDate = calendar.date(byAdding: .day, value: -28, to: endDate)
-        
-        let queryPredicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
+        let interval = createDateInterval(from: .now, daysBack: daysBack)
+        let queryPredicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end)
         let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.bodyMass), predicate: queryPredicate)
         
         let weightsQuery = HKStatisticsCollectionQueryDescriptor(
             predicate: samplePredicate,
             options: .mostRecent,
-            anchorDate: endDate,
+            anchorDate: interval.end,
             intervalComponents: .init(day: 1)
         )
         
         do {
             let weights = try await weightsQuery.result(for: store)
-            weightData = weights.statistics().map{
+            return weights.statistics().map{
                 .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .pound()) ?? 0)
             }
         } catch HKError.errorNoData {
@@ -119,37 +73,6 @@ enum STError: Error, LocalizedError {
         }
     }
     
-    func fetchWeightsforDifferentials() async throws{
-        guard store.authorizationStatus(for: HKQuantityType(.bodyMass)) != .notDetermined else {
-            throw STError.authNotDetermined
-        }
-        
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
-        let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
-        let startDate = calendar.date(byAdding: .day, value: -28, to: endDate)
-        
-        let queryPredicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
-        let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.bodyMass), predicate: queryPredicate)
-        
-        let weightsQuery = HKStatisticsCollectionQueryDescriptor(
-            predicate: samplePredicate,
-            options: .mostRecent,
-            anchorDate: endDate,
-            intervalComponents: .init(day: 1)
-        )
-        
-        do {
-            let weights = try await weightsQuery.result(for: store)
-            weightDiffData = weights.statistics().map{
-                .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .pound()) ?? 0)
-            }
-        } catch HKError.errorNoData {
-            throw STError.noData
-        } catch {
-            throw STError.unbableToCompleteRequest
-        }
-    }
     
     func addStepData(for date: Date, value: Double) async throws {
         let status = store.authorizationStatus(for: HKQuantityType(.stepCount))
@@ -193,6 +116,14 @@ enum STError: Error, LocalizedError {
         } catch {
             throw STError.unbableToCompleteRequest
         }
+    }
+    
+    private func createDateInterval(from date: Date, daysBack: Int) -> DateInterval {
+        let calendar = Calendar.current
+        let startOfEndDate = calendar.startOfDay(for: date)
+        let endDate = calendar.date(byAdding: .day, value: 1, to: startOfEndDate)!
+        let startDate = calendar.date(byAdding: .day, value: -daysBack, to: endDate)!
+        return .init(start: startDate, end: endDate)
     }
     
 //    func addSimulatorData() async {

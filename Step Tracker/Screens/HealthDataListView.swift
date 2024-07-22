@@ -20,7 +20,7 @@ struct HealthDataListView: View {
     var listData: [HealthMetric] {
         metric == .steps ? hkManager.stepData : hkManager.weightData
     }
-        
+    
     var body: some View {
         List(listData.reversed()) { data in
             HStack {
@@ -76,41 +76,7 @@ struct HealthDataListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Data") {
-                        guard let value = Double(valueToAdd) else {
-                            writeError = .invalidValue
-                            isShowingAlert = true
-                            valueToAdd = ""
-                            return
-                        }
-                        Task {
-                            if metric == .steps {
-                                do {
-                                    try await hkManager.addStepData(for: addDataDate, value: value)
-                                    try await hkManager.fetchStepsCount()
-                                    isShowingAddData = false
-                                } catch STError.sharingDenied(let quantityType) {
-                                    writeError = .sharingDenied(HKQuantityType: quantityType)
-                                    isShowingAlert = true
-                                } catch {
-                                    writeError = .unbableToCompleteRequest
-                                    isShowingAlert = true
-                                }
-                                
-                            } else {
-                                do {
-                                    try await hkManager.addWeightData(for: addDataDate, value: value)
-                                    try await hkManager.fetchWeights()
-                                    try await hkManager.fetchWeightsforDifferentials()
-                                    isShowingAddData = false
-                                } catch STError.sharingDenied(let quantityType) {
-                                    writeError = .sharingDenied(HKQuantityType: quantityType)
-                                    isShowingAlert = true
-                                } catch {
-                                    writeError = .unbableToCompleteRequest
-                                    isShowingAlert = true
-                                }
-                            }
-                        }
+                        addDataToHealthKit()
                     }
                 }
                 
@@ -122,7 +88,39 @@ struct HealthDataListView: View {
             }
         }
     }
-}
+    
+    private func addDataToHealthKit() {
+        guard let value = Double(valueToAdd) else {
+            writeError = .invalidValue
+            isShowingAlert = true
+            valueToAdd = ""
+            return
+        }
+        Task {
+            do {
+                if metric == .steps {
+                    try await hkManager.addStepData(for: addDataDate, value: value)
+                    hkManager.stepData = try await hkManager.fetchStepsCount()
+                } else {
+                    try await hkManager.addWeightData(for: addDataDate, value: value)
+                    async let weightsForLineChart = hkManager.fetchWeights(daysBack: 28)
+                    async let weightsForDiffBarChart = hkManager.fetchWeights(daysBack: 29)
+                    
+                    hkManager.stepData = try await weightsForLineChart
+                    hkManager.stepData = try await weightsForDiffBarChart
+                }
+                
+                isShowingAddData = false
+            } catch STError.sharingDenied(let quantityType) {
+                writeError = .sharingDenied(HKQuantityType: quantityType)
+                isShowingAlert = true
+            } catch {
+                writeError = .unbableToCompleteRequest
+                isShowingAlert = true
+            }
+        }
+    }
+ }
 
 #Preview {
     NavigationStack {
