@@ -19,13 +19,9 @@ struct WeightDiffBarChart: View {
     }
     
     var body: some View {
-        let config = ChartContainerConfiguration(title: "Weight",
-                                                 symbol: "figure",
-                                                 subtitle: "Avg: 180 lbs",
-                                                 context: .weight,
-                                                 isNave: false)
+        let chartType: ChartType = .weightDiffBar
         
-        ChartContainer(config: config) {
+        ChartContainer(chartType: chartType) {
             Chart {
                 if let selectedData {
                     ChartAnnotationView(data: selectedData, context: .weight)
