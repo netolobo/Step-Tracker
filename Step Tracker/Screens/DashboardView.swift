@@ -44,11 +44,11 @@ struct DashboardView: View {
             .navigationDestination(for: HealthMetricContext.self) { metric in
                 HealthDataListView(metric: metric)
             }
-            .fullScreenCover(isPresented: $isShowingPermissionPrimingSheet) {
+            .fullScreenCover(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
                 fetchHealthData()
-            } content: {
+            }, content: {
                 HealthKitPremissionPrimingView()
-            }
+            })
             .alert(isPresented: $isShowingAlert, error: fetchError) { fetchError in
                 // Actions
             } message: { fetchError in
@@ -66,8 +66,8 @@ struct DashboardView: View {
                 async let weightsForDiffBarChart = hkManager.fetchWeights(daysBack: 29)
                 
                 hkManager.stepData = try await steps
-                hkManager.stepData = try await weightsForLineChart
-                hkManager.stepData = try await weightsForDiffBarChart
+                hkManager.weightData = try await weightsForLineChart
+                hkManager.weightDiffData = try await weightsForDiffBarChart
             } catch STError.authNotDetermined{
                 isShowingPermissionPrimingSheet = true
             } catch STError.noData {
