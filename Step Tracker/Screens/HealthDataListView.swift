@@ -24,10 +24,12 @@ struct HealthDataListView: View {
     var body: some View {
         List(listData.reversed()) { data in
             LabeledContent {
-                Text(data.date, format: .dateTime.month().day().year())
-            } label: {
                 Text(data.value, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
+            } label: {
+                Text(data.date, format: .dateTime.month().day().year())
+                    .accessibilityLabel(data.date.accessibilityDate)
             }
+            .accessibilityElement(children: .combine)
         }
         .navigationTitle(metric.title)
         .sheet(isPresented: $isShowingAddData) {
