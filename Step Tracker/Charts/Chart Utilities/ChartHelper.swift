@@ -1,16 +1,32 @@
 //
-//  ChartMath.swift
+//  ChartHelper.swift
 //  Step Tracker
 //
-//  Created by Neto Lobo on 24/06/24.
+//  Created by Neto Lobo on 09/07/24.
 //
 
 import Foundation
 import Algorithms
 
-struct ChartMath {
+struct ChartHelper {
+    
+    /// Convert HealthMetric array to DateValueChartData array
+    /// - Parameter data: Array of ``HealthMetric``
+    /// - Returns: Array of ``DateValueChartData``
+    static func convert(data: [HealthMetric]) -> [DateValueChartData] {
+        data.map { .init(date: $0.date, value: $0.value)}
+    }
+    
+    
+    static func parseSelectedData(from data: [DateValueChartData], in selectedDate: Date?) -> DateValueChartData? {
+        guard let selectedDate else { return nil }
+        return data.first {
+            Calendar.current.isDate(selectedDate, inSameDayAs: $0.date)
+        }
+    }
+    
     static func averageWeekDayCount(for metric: [HealthMetric]) -> [DateValueChartData] {
-        let sortedbyWeekday = metric.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
+        let sortedbyWeekday = metric.sorted(using: KeyPathComparator(\.date.weekdayInt))
         let weekdayArray = sortedbyWeekday.chunked { $0.date.weekdayInt == $1.date.weekdayInt }
         
         var weekDayChartData: [DateValueChartData] = []
@@ -36,7 +52,7 @@ struct ChartMath {
             diffValues.append((date: date, value: diff))
         }
         
-        let sortedbyWeekday = diffValues.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
+        let sortedbyWeekday = diffValues.sorted(using: KeyPathComparator(\.date.weekdayInt))
         let weekdayArray = sortedbyWeekday.chunked { $0.date.weekdayInt == $1.date.weekdayInt }
         
         var weekDayChartData: [DateValueChartData] = []
