@@ -9,9 +9,14 @@ import Foundation
 import Algorithms
 
 struct ChartHelper {
+    
+    /// Convert HealthMetric array to DateValueChartData array
+    /// - Parameter data: Array of ``HealthMetric``
+    /// - Returns: Array of ``DateValueChartData``
     static func convert(data: [HealthMetric]) -> [DateValueChartData] {
         data.map { .init(date: $0.date, value: $0.value)}
     }
+    
     
     static func parseSelectedData(from data: [DateValueChartData], in selectedDate: Date?) -> DateValueChartData? {
         guard let selectedDate else { return nil }
