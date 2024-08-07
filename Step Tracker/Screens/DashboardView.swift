@@ -62,14 +62,18 @@ struct DashboardView: View {
         Task {
 //            await hkManager.addSimulatorData()
             do {
-                
+//                async let moveTime = hkManager.fetchMoveTimeCount()
                 async let steps = hkManager.fetchStepsCount()
                 async let weightsForLineChart = hkManager.fetchWeights(daysBack: 28)
                 async let weightsForDiffBarChart = hkManager.fetchWeights(daysBack: 29)
                 
+//                hkManager.moveTimeData = try await moveTime
+//                print("♥️\(hkManager.moveTimeData)")
+                
                 hkManager.stepData = try await steps
                 hkManager.weightData = try await weightsForLineChart
                 hkManager.weightDiffData = try await weightsForDiffBarChart
+                
             } catch STError.authNotDetermined{
                 isShowingPermissionPrimingSheet = true
             } catch STError.noData {

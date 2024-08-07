@@ -11,10 +11,43 @@ import Observation
 
 @Observable class HealthKitManager {
     let store = HKHealthStore()
-    let types: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
+    let shareTypes: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
+    let readTypes: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass), HKQuantityType(.appleMoveTime), HKQuantityType(.appleStandTime), HKQuantityType(.appleExerciseTime)]
     var stepData: [HealthMetric] = []
     var weightData: [HealthMetric] = []
     var weightDiffData: [HealthMetric] = []
+//    var moveTimeData: [HealthMetric] = []
+    
+    
+    /// Fetch last 7 days movie time from HealthKit
+    /// - Returns: Array of ``HealthMetric``
+    func fetchMoveTimeCount() async throws -> [HealthMetric] {
+        guard store.authorizationStatus(for: HKQuantityType(.appleMoveTime)) != .notDetermined else {
+            throw STError.authNotDetermined
+        }
+
+        let interval = createDateInterval(from: .now, daysBack: 7)
+        let queryPredicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end)
+        let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.appleMoveTime), predicate: queryPredicate)
+        
+        let moveTimeQuery = HKStatisticsCollectionQueryDescriptor(
+                                                                predicate: samplePredicate,
+                                                                options: .cumulativeSum,
+                                                                anchorDate: interval.end,
+                                                                intervalComponents: .init(day: 1))
+        
+        do {
+            let moveTimeCounts = try await moveTimeQuery.result(for: store)
+            
+            return moveTimeCounts.statistics().map {
+                .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+            }
+        } catch HKError.errorNoData {
+            throw STError.noData
+        } catch {
+            throw STError.unbableToCompleteRequest
+        }
+    }
     
     /// Fetch last 28 days steps count from HealthKit
     /// - Returns: Array of ``HealthMetric``
