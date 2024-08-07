@@ -28,6 +28,7 @@
 		5AD051822C29B4340083E9F9 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD051812C29B4340083E9F9 /* Date+Ext.swift */; };
 		5AD051852C29B6E90083E9F9 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 5AD051842C29B6E90083E9F9 /* Algorithms */; };
 		5AD051872C29BEE70083E9F9 /* StepPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD051862C29BEE70083E9F9 /* StepPieChart.swift */; };
+		5AD1F9732C63F42F00171ED7 /* Color+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD1F9722C63F42F00171ED7 /* Color+Ext.swift */; };
 		5AFB44C02C4022E40026D471 /* STError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB44BF2C4022E40026D471 /* STError.swift */; };
 		5AFB44C22C4EA21A0026D471 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB44C12C4EA21A0026D471 /* Array+Ext.swift */; };
 /* End PBXBuildFile section */
@@ -55,6 +56,7 @@
 		5AD0517E2C29B2E30083E9F9 /* ChartDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataTypes.swift; sourceTree = "<group>"; };
 		5AD051812C29B4340083E9F9 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		5AD051862C29BEE70083E9F9 /* StepPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPieChart.swift; sourceTree = "<group>"; };
+		5AD1F9722C63F42F00171ED7 /* Color+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Ext.swift"; sourceTree = "<group>"; };
 		5AFB44BF2C4022E40026D471 /* STError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STError.swift; sourceTree = "<group>"; };
 		5AFB44C12C4EA21A0026D471 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -163,6 +165,7 @@
 			children = (
 				5AD051812C29B4340083E9F9 /* Date+Ext.swift */,
 				5AFB44C12C4EA21A0026D471 /* Array+Ext.swift */,
+				5AD1F9722C63F42F00171ED7 /* Color+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				5AD051752C29A70B0083E9F9 /* StepBarChart.swift in Sources */,
 				5AD051772C29ABA70083E9F9 /* HealthMetricContext.swift in Sources */,
 				5A343B292C3D64CB00AF758C /* ChartAnnotationView.swift in Sources */,
+				5AD1F9732C63F42F00171ED7 /* Color+Ext.swift in Sources */,
 				5A343B1B2C2C55EE00AF758C /* MockData.swift in Sources */,
 				5AD0515E2C2084F30083E9F9 /* Step_TrackerApp.swift in Sources */,
 				5AD051822C29B4340083E9F9 /* Date+Ext.swift in Sources */,
@@ -430,6 +434,7 @@
 				DEVELOPMENT_TEAM = J43673834C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Heath Tracker";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "The app shows your step and weight data in an interactive chart.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "The app allows to add step and weight data to App Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -462,6 +467,7 @@
 				DEVELOPMENT_TEAM = J43673834C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Heath Tracker";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "The app shows your step and weight data in an interactive chart.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "The app allows to add step and weight data to App Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

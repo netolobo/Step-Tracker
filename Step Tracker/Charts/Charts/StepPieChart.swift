@@ -35,7 +35,7 @@ struct StepPieChart: View {
                         outerRadius: selectedWeekday?.date.weekdayInt == weekday.date.weekdayInt ? 140: 110,
                         angularInset: 1
                     )
-                    .foregroundStyle(.pink.gradient)
+                    .foregroundStyle(.stepsColor.gradient)
                     .cornerRadius(6)
                     .opacity(selectedWeekday?.date.weekdayInt == weekday.date.weekdayInt ? 1.0 : 0.3)
                     .accessibilityLabel(weekday.date.weekdayTitle)

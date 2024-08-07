@@ -30,5 +30,7 @@ struct ChartEmptyView: View {
 }
 
 #Preview {
-    ChartEmptyView(systemImageName: "chart.bar", title: "No Data", description: "There is no step count data from the Health App")
+    ChartEmptyView(systemImageName: "chart.bar", 
+                   title: "No Data",
+                   description: "There is no step count data from the Health App")
 }
