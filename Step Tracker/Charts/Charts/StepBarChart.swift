@@ -44,7 +44,7 @@ struct StepBarChart: View {
                             x: .value("Date", steps.date, unit: .day),
                             y: .value("Steps",steps.value)
                         )
-                        .foregroundStyle(Color.pink.gradient)
+                        .foregroundStyle(.stepsColor.gradient)
                         .opacity(rawSelectedDate == nil || steps.date == selectedData?.date ? 1 : 0.3)
                     }
                     .accessibilityLabel(steps.date.accessibilityDate)

@@ -31,7 +31,7 @@ struct ChartAnnotationView: ChartContent {
             
             Text(data.value, format: .number.precision(.fractionLength(context == .steps ? 0 : 1)))
                 .fontWeight(.heavy)
-                .foregroundStyle(context == .steps ? .pink : .indigo)
+                .foregroundStyle(context == .steps ? .stepsColor : .weightColor)
         }
         .padding(12)
         .background(

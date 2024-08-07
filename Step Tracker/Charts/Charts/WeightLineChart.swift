@@ -34,7 +34,7 @@ struct WeightLineChart: View {
                     ChartAnnotationView(data: selectedData, context: .weight)
                 }
                 RuleMark(y: .value("Goal", 155))
-                    .foregroundStyle(.mint)
+                    .foregroundStyle(.goalColor)
                     .lineStyle(.init(lineWidth: 1, dash: [5]))
                     .accessibilityHidden(true)
                 
@@ -45,13 +45,13 @@ struct WeightLineChart: View {
                             yStart: .value("Value", weight.value),
                             yEnd: .value("Min Value", minValue)
                         )
-                        .foregroundStyle(Gradient(colors: [.indigo.opacity(0.5), .clear]))
+                        .foregroundStyle(Gradient(colors: [.weightColor.opacity(0.5), .clear]))
                         
                         LineMark(
                             x: .value("Day", weight.date, unit: .day),
                             y: .value("Value", weight.value)
                         )
-                        .foregroundStyle(.indigo)
+                        .foregroundStyle(.weightColor)
                         .interpolationMethod(.catmullRom)
                         .symbol(.circle)
                     }

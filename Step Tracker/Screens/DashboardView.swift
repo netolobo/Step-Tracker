@@ -60,7 +60,9 @@ struct DashboardView: View {
     
     private func fetchHealthData() {
         Task {
+//            await hkManager.addSimulatorData()
             do {
+                
                 async let steps = hkManager.fetchStepsCount()
                 async let weightsForLineChart = hkManager.fetchWeights(daysBack: 28)
                 async let weightsForDiffBarChart = hkManager.fetchWeights(daysBack: 29)
