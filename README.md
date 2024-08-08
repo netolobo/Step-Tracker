@@ -1,9 +1,9 @@
-# Step Tracker
+# Health Tracker
 Step Tracker integrates Apple Health to show your latest step and weight data in animated, interactive Swift Charts. You can also see your average steps and weight gain/loss for each weekday for the past 28 days.
 
 Step Tracker also allows you to upload new step or weight data to the Apple Health app.
 
-# Technologies Used
+### 🧰 Tech Used :
 * SwiftUI
 * HealthKit
 * Swift Charts
@@ -11,13 +11,13 @@ Step Tracker also allows you to upload new step or weight data to the Apple Heal
 * DocC
 * Git & GitHub
 
-# Animated Swift Charts
+### Animated Swift Charts
 
 https://github.com/user-attachments/assets/cfa047e8-0fd1-4a49-bc96-e0dafc62dcc1
 
 
 
-# I'm Most Proud Of...
+### I'm Most Proud Of...
 The average weight difference per day of the week bar chart. Determining which day of the week were problem days for someone trying to lose weight struck me as a great insight to surface from the weight data. 
 
 I pulled the last 29 days of weights and ran a calculation to track the differences between each weekday. I then averaged each weekday's gain/loss and displayed them in a bar chart and conditionally colored the positive and negative weight change values.
@@ -59,7 +59,7 @@ Here's the code:
 
 
 
-# Completeness
+### Completeness
 Although it's a simple portfolio project, I've implemented the following
 * Error handling & alerts
 * Empty states
