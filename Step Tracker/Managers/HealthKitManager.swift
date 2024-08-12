@@ -16,31 +16,50 @@ import Observation
     var stepData: [HealthMetric] = []
     var weightData: [HealthMetric] = []
     var weightDiffData: [HealthMetric] = []
-//    var moveTimeData: [HealthMetric] = []
+    var moveData: [HealthMetric] = []
+    var standData: [HealthMetric] = []
+    var exerciseData: [HealthMetric] = []
     
-    
-    /// Fetch last 7 days movie time from HealthKit
+    /// Fetch last 7 days of activity time from HealthKit.
+    /// - Parameter activity: Ex - .appleMoveTime
     /// - Returns: Array of ``HealthMetric``
-    func fetchMoveTimeCount() async throws -> [HealthMetric] {
-        guard store.authorizationStatus(for: HKQuantityType(.appleMoveTime)) != .notDetermined else {
+    func fetchActivityTimeCount(_ activity: HKQuantityTypeIdentifier, _ unit: HKUnit) async throws -> [HealthMetric] {
+        guard store.authorizationStatus(for: HKQuantityType(activity)) != .notDetermined else {
             throw STError.authNotDetermined
         }
 
         let interval = createDateInterval(from: .now, daysBack: 7)
         let queryPredicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end)
-        let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.appleMoveTime), predicate: queryPredicate)
+        let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(activity), predicate: queryPredicate)
         
-        let moveTimeQuery = HKStatisticsCollectionQueryDescriptor(
+        let activityTimeQuery = HKStatisticsCollectionQueryDescriptor(
                                                                 predicate: samplePredicate,
                                                                 options: .cumulativeSum,
                                                                 anchorDate: interval.end,
                                                                 intervalComponents: .init(day: 1))
         
         do {
-            let moveTimeCounts = try await moveTimeQuery.result(for: store)
+            let activityTimeCounts = try await activityTimeQuery.result(for: store)
             
-            return moveTimeCounts.statistics().map {
-                .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+            
+            print("✅ print is working")
+            
+            for activitityTime in activityTimeCounts.statistics() {
+                switch activity {
+                case .appleMoveTime:
+                    print("♥️ = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.1)")
+                case .appleStandTime:
+                    print("🩵 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.2)")
+                case .appleExerciseTime:
+                    print("💚 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.3)")
+                default:
+                    break
+                }
+                
+            }
+            
+            return activityTimeCounts.statistics().map {
+                .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: unit) ?? 0)
             }
         } catch HKError.errorNoData {
             throw STError.noData
