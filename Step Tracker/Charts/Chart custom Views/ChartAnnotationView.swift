@@ -11,6 +11,16 @@ import Charts
 struct ChartAnnotationView: ChartContent {
     let data: DateValueChartData
     let context: HealthMetricContext
+    var defaultColor: any ShapeStyle {
+        switch context {
+        case .steps:
+            return .stepsColor
+        case .weight:
+            return .weightColor
+        case .activity:
+            return .exerciseColor
+        }
+    }
     
     var body: some ChartContent {
         RuleMark(x: .value("Selected metric", data.date, unit: .day))
@@ -31,7 +41,7 @@ struct ChartAnnotationView: ChartContent {
             
             Text(data.value, format: .number.precision(.fractionLength(context == .steps ? 0 : 1)))
                 .fontWeight(.heavy)
-                .foregroundStyle(context == .steps ? .stepsColor : .weightColor)
+                .foregroundStyle(defaultColor)
         }
         .padding(12)
         .background(

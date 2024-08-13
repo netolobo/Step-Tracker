@@ -8,7 +8,7 @@
 import Foundation
 
 enum HealthMetricContext: CaseIterable, Identifiable {
-    case steps, weight
+    case steps, weight, activity
     
     var title: String {
         switch self {
@@ -16,6 +16,8 @@ enum HealthMetricContext: CaseIterable, Identifiable {
             return "Steps"
         case .weight:
             return "Weight"
+        case .activity:
+            return "Activity"
         }
     }
     

@@ -1,15 +1,14 @@
 //
-//  StepBarChart.swift
+//  ActivitiesBarChart.swift
 //  Step Tracker
 //
-//  Created by Neto Lobo on 24/06/24.
+//  Created by Neto Lobo on 12/08/24.
 //
 
 import SwiftUI
 import Charts
 
-
-struct StepBarChart: View {
+struct StandBarChart: View {
     @State private var rawSelectedDate: Date?
     @State private var selectedDay: Date?
     
@@ -18,21 +17,21 @@ struct StepBarChart: View {
     var selectedData: DateValueChartData? {
         ChartHelper.parseSelectedData(from: chartData, in: rawSelectedDate)    }
     
-    var averageSteps: Int {
+    var averageStandTime: Int {
         Int(chartData.map { $0.value }.average)
     }
     
     var body: some View {
-        let chartType: ChartType = .stepBar(average: averageSteps)
+        let chartType: ChartType = .standBar(average: averageStandTime)
         
         ChartContainer(chartType: chartType) {
             Chart {
                 if let selectedData {
-                    ChartAnnotationView(data: selectedData, context: .steps)
+                    ChartAnnotationView(data: selectedData, context: .activity)
                 }
                 
                 if !chartData.isEmpty {
-                    RuleMark(y: .value("Average", averageSteps))
+                    RuleMark(y: .value("Average", averageStandTime))
                         .foregroundStyle(.secondary)
                         .lineStyle(.init(lineWidth: 1, dash: [5]))
                         .accessibilityHidden(true)
@@ -42,13 +41,13 @@ struct StepBarChart: View {
                     Plot {
                         BarMark(
                             x: .value("Date", steps.date, unit: .day),
-                            y: .value("Steps",steps.value)
+                            y: .value("Hours",steps.value)
                         )
                         .foregroundStyle(.stepsColor.gradient)
                         .opacity(rawSelectedDate == nil || steps.date == selectedData?.date ? 1 : 0.3)
                     }
                     .accessibilityLabel(steps.date.accessibilityDate)
-                    .accessibilityValue("\(Int(steps.value)) steps")
+                    .accessibilityValue("\(Int(steps.value)) hours")
                 }
             }
             .frame(height: 150)
@@ -71,7 +70,7 @@ struct StepBarChart: View {
                     ChartEmptyView(
                         systemImageName: "chart.bar",
                         title: "No Data",
-                        description: "There is no step count data from the Health App"
+                        description: "There is no stand hour data from the Health App"
                     )
                 }
             }
@@ -86,5 +85,5 @@ struct StepBarChart: View {
 }
 
 #Preview {
-    StepBarChart(chartData: [])
+    StandBarChart(chartData: [])
 }

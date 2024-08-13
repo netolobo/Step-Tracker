@@ -35,6 +35,10 @@ struct DashboardView: View {
                         WeightLineChart(chartData: ChartHelper.convert(data: hkManager.weightData))
                         
                         WeightDiffBarChart(chartData: ChartHelper.averageDailyWeightDiffs(for: hkManager.weightDiffData))
+                    case .activity:
+                        StandBarChart(chartData: ChartHelper.convert(data: hkManager.standData))
+                        
+                        ExerciseBarChart(chartData: ChartHelper.convert(data: hkManager.exerciseData))
                     }
                 }
             }
