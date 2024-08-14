@@ -43,7 +43,7 @@ struct ExerciseBarChart: View {
                             x: .value("Date", steps.date, unit: .day),
                             y: .value("Minutes",steps.value)
                         )
-                        .foregroundStyle(.stepsColor.gradient)
+                        .foregroundStyle(.exerciseColor.gradient)
                         .opacity(rawSelectedDate == nil || steps.date == selectedData?.date ? 1 : 0.3)
                     }
                     .accessibilityLabel(steps.date.accessibilityDate)
@@ -84,6 +84,10 @@ struct ExerciseBarChart: View {
     }
 }
 
-#Preview {
+#Preview("With data") {
+    ExerciseBarChart(chartData: MockData.exercise)
+}
+
+#Preview("Empty data") {
     ExerciseBarChart(chartData: [])
 }

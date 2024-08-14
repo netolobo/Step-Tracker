@@ -75,6 +75,12 @@ struct WeightDiffBarChart: View {
     }
 }
 
-#Preview {
+#Preview("With data") {
     WeightDiffBarChart(chartData: MockData.weightsDiffs)
 }
+
+#Preview("Without data") {
+    WeightDiffBarChart(chartData: [])
+}
+
+

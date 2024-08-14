@@ -94,6 +94,10 @@ struct WeightLineChart: View {
     }
 }
 
-#Preview {
+#Preview("With Data") {
     WeightLineChart(chartData: ChartHelper.convert(data: MockData.weights))
+}
+
+#Preview("Empty Data") {
+    WeightLineChart(chartData: [])
 }

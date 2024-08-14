@@ -43,7 +43,7 @@ struct StandBarChart: View {
                             x: .value("Date", steps.date, unit: .day),
                             y: .value("Hours",steps.value)
                         )
-                        .foregroundStyle(.stepsColor.gradient)
+                        .foregroundStyle(.standColor.gradient)
                         .opacity(rawSelectedDate == nil || steps.date == selectedData?.date ? 1 : 0.3)
                     }
                     .accessibilityLabel(steps.date.accessibilityDate)
@@ -84,6 +84,10 @@ struct StandBarChart: View {
     }
 }
 
-#Preview {
+#Preview("With data") {
+    StandBarChart(chartData: MockData.stand)
+}
+
+#Preview("Empty data") {
     StandBarChart(chartData: [])
 }
