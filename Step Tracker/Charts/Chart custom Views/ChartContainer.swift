@@ -94,7 +94,6 @@ struct ChartContainer<Content: View>: View {
             return .stepsColor
         case .exerciseBar(_):
             return .exerciseColor
-
         case .weightLine(_), .weightDiffBar:
             return .weightColor
         case .standBar(_):
@@ -145,9 +144,9 @@ struct ChartContainer<Content: View>: View {
         case .weightDiffBar:
             "Per Weekday (Last 28 Days)"
         case .standBar(let average):
-            "Last 7 days avg: \(average)"
+            "Last 7 days avg: \(average) hours"
         case .exerciseBar(let average):
-            "Last 7 days avg: \(average)"
+            "Last 7 days avg: \(average) minutes"
         }
     }
     

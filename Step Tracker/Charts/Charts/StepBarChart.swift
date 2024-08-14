@@ -85,6 +85,10 @@ struct StepBarChart: View {
     }
 }
 
-#Preview {
+#Preview("With data") {
+    StepBarChart(chartData: MockData.steps.map { .init(date: $0.date, value: $0.value)})
+}
+
+#Preview("Empty data") {
     StepBarChart(chartData: [])
 }
