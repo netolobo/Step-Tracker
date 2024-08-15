@@ -37,24 +37,24 @@ struct StandBarChart: View {
                         .accessibilityHidden(true)
                 }
                 
-                ForEach(chartData) { steps in
+                ForEach(chartData) { stand in
                     Plot {
                         BarMark(
-                            x: .value("Date", steps.date, unit: .day),
-                            y: .value("Hours",steps.value)
+                            x: .value("Date", stand.date, unit: .day),
+                            y: .value("Hours",stand.value)
                         )
                         .foregroundStyle(.standColor.gradient)
-                        .opacity(rawSelectedDate == nil || steps.date == selectedData?.date ? 1 : 0.3)
+                        .opacity(rawSelectedDate == nil || stand.date == selectedData?.date ? 1 : 0.3)
                     }
-                    .accessibilityLabel(steps.date.accessibilityDate)
-                    .accessibilityValue("\(Int(steps.value)) hours")
+                    .accessibilityLabel(stand.date.accessibilityDate)
+                    .accessibilityValue("\(Int(stand.value)) hours")
                 }
             }
             .frame(height: 150)
             .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
             .chartXAxis {
-                AxisMarks {
-                    AxisValueLabel(format: .dateTime.month(.defaultDigits).day())
+                AxisMarks(values: .stride(by: .day)) {
+                    AxisValueLabel(format: .dateTime.month(.abbreviated).day(), centered: true)
                 }
             }
             .chartYAxis {
@@ -84,10 +84,11 @@ struct StandBarChart: View {
     }
 }
 
-#Preview("With data") {
-    StandBarChart(chartData: MockData.stand)
-}
 
 #Preview("Empty data") {
     StandBarChart(chartData: [])
+}
+
+#Preview("With data") {
+    StandBarChart(chartData: MockData.stand)
 }

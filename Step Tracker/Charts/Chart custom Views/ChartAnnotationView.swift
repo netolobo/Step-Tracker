@@ -11,6 +11,22 @@ import Charts
 struct ChartAnnotationView: ChartContent {
     let data: DateValueChartData
     let chartType: ChartType
+    
+    var fractionLenght: Int {
+        switch chartType {
+        case .stepBar(_), .stepWeekdayPie:
+            return 0
+        case .exerciseBar(_):
+            return 0
+        case .weightLine(_):
+            return 1
+        case .weightDiffBar:
+            return 1
+        case .standBar(_):
+            return 0
+        }
+    }
+    
     var defaultColor: any ShapeStyle {
         switch chartType {
         case .stepBar(_), .stepWeekdayPie:
@@ -43,7 +59,7 @@ struct ChartAnnotationView: ChartContent {
             .font(.footnote.bold())
             .foregroundStyle(.secondary)
             
-            Text(data.value, format: .number.precision(.fractionLength(chartType == .stepWeekdayPie ? 0 : 1)))
+            Text(data.value, format: .number.precision(.fractionLength(fractionLenght)))
                 .fontWeight(.heavy)
                 .foregroundStyle(defaultColor)
         }
