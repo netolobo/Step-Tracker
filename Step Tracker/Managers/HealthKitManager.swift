@@ -41,22 +41,21 @@ import Observation
         do {
             let activityTimeCounts = try await activityTimeQuery.result(for: store)
             
-            
-            print("✅ print is working")
-            
-            for activitityTime in activityTimeCounts.statistics() {
-                switch activity {
-                case .appleMoveTime:
-                    print("♥️ = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.1)")
-                case .appleStandTime:
-                    print("🩵 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.2)")
-                case .appleExerciseTime:
-                    print("💚 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.3)")
-                default:
-                    break
-                }
-                
-            }
+//            print("✅ print is working")
+//            
+//            for activitityTime in activityTimeCounts.statistics() {
+//                switch activity {
+//                case .appleMoveTime:
+//                    print("♥️ = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.1)")
+//                case .appleStandTime:
+//                    print("🩵 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.2)")
+//                case .appleExerciseTime:
+//                    print("💚 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.3)")
+//                default:
+//                    break
+//                }
+//                
+//            }
             
             return activityTimeCounts.statistics().map {
                 .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: unit) ?? 0)
@@ -120,7 +119,7 @@ import Observation
         do {
             let weights = try await weightsQuery.result(for: store)
             return weights.statistics().map{
-                .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .pound()) ?? 0)
+                .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .gramUnit(with: .kilo)) ?? 0)
             }
         } catch HKError.errorNoData {
             throw STError.noData

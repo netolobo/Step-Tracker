@@ -140,9 +140,9 @@ struct ChartContainer<Content: View>: View {
         case .stepWeekdayPie:
             "Last 28 days"
         case .weightLine( let average):
-            "Avg: \(average.formatted(.number.precision(.fractionLength(1)))) lbs"
+            "Avg: \(average.formatted(.number.precision(.fractionLength(1)))) Kgs"
         case .weightDiffBar:
-            "Per Weekday (Last 28 Days)"
+            "Per Weekday (Last 15 Days)"
         case .standBar(let average):
             "Last 7 days avg: \(average) hours"
         case .exerciseBar(let average):
