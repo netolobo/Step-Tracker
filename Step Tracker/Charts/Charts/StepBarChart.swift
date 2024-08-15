@@ -28,7 +28,10 @@ struct StepBarChart: View {
         ChartContainer(chartType: chartType) {
             Chart {
                 if let selectedData {
-                    ChartAnnotationView(data: selectedData, context: .steps)
+                    ChartAnnotationView(
+                        data: selectedData,
+                        chartType: .stepBar(average: averageSteps)
+                    )
                 }
                 
                 if !chartData.isEmpty {

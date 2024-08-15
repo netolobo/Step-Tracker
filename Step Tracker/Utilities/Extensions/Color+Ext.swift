@@ -13,7 +13,7 @@ extension ShapeStyle where Self == Color {
     static var weightColor: Color { .orange }
     static var standColor: Color { .blue }
     static var exerciseColor: Color { .red }
-    static var goalColor: Color { .blue }
+    static var goalColor: Color { .purple }
     static var positiveWeightColor: Color { .pink }
     static var negativeWeightColor: Color { .mint }
 }

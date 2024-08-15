@@ -31,7 +31,7 @@ struct WeightLineChart: View {
         ChartContainer(chartType: chartType) {
             Chart {
                 if let selectedData {
-                    ChartAnnotationView(data: selectedData, context: .weight)
+                    ChartAnnotationView(data: selectedData, chartType: chartType)
                 }
                 RuleMark(y: .value("Goal", 155))
                     .foregroundStyle(.goalColor)
