@@ -38,24 +38,24 @@ struct ExerciseBarChart: View {
                         .accessibilityHidden(true)
                 }
                 
-                ForEach(chartData) { steps in
+                ForEach(chartData) { exercise in
                     Plot {
                         BarMark(
-                            x: .value("Date", steps.date, unit: .day),
-                            y: .value("Minutes",steps.value)
+                            x: .value("Date", exercise.date, unit: .day),
+                            y: .value("Minutes",exercise.value)
                         )
                         .foregroundStyle(.exerciseColor.gradient)
-                        .opacity(rawSelectedDate == nil || steps.date == selectedData?.date ? 1 : 0.3)
+                        .opacity(rawSelectedDate == nil || exercise.date == selectedData?.date ? 1 : 0.3)
                     }
-                    .accessibilityLabel(steps.date.accessibilityDate)
-                    .accessibilityValue("\(Int(steps.value)) minutes")
+                    .accessibilityLabel(exercise.date.accessibilityDate)
+                    .accessibilityValue("\(Int(exercise.value)) minutes")
                 }
             }
             .frame(height: 150)
             .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
             .chartXAxis {
-                AxisMarks {
-                    AxisValueLabel(format: .dateTime.month(.defaultDigits).day())
+                AxisMarks(values: .stride(by: .day)) {
+                    AxisValueLabel(format: .dateTime.weekday(), centered: true)
                 }
             }
             .chartYAxis {
@@ -85,10 +85,10 @@ struct ExerciseBarChart: View {
     }
 }
 
-#Preview("With data") {
-    ExerciseBarChart(chartData: MockData.exercise)
-}
-
 #Preview("Empty data") {
     ExerciseBarChart(chartData: [])
+}
+
+#Preview("With data") {
+    ExerciseBarChart(chartData: MockData.exercise)
 }

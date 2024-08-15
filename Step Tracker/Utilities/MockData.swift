@@ -25,7 +25,7 @@ struct MockData {
         
         for i in 0..<8 {
             let metric = HealthMetric(date: Calendar.current.date(byAdding: .day, value: -i, to: .now)!,
-                                      value: .random(in: 0.1...3))
+                                      value: .random(in: 30...180))
             array.append(metric)
         }
         
