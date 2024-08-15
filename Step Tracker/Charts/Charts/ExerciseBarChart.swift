@@ -15,7 +15,8 @@ struct ExerciseBarChart: View {
     var chartData: [DateValueChartData]
     
     var selectedData: DateValueChartData? {
-        ChartHelper.parseSelectedData(from: chartData, in: rawSelectedDate)    }
+        ChartHelper.parseSelectedData(from: chartData, in: rawSelectedDate)
+    }
     
     var averageExerciseTime: Int {
         Int(chartData.map { $0.value }.average)
@@ -27,12 +28,12 @@ struct ExerciseBarChart: View {
         ChartContainer(chartType: chartType) {
             Chart {
                 if let selectedData {
-                    ChartAnnotationView(data: selectedData, context: .activity)
+                    ChartAnnotationView(data: selectedData, chartType: chartType)
                 }
                 
                 if !chartData.isEmpty {
                     RuleMark(y: .value("Average", averageExerciseTime))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.goalColor)
                         .lineStyle(.init(lineWidth: 1, dash: [5]))
                         .accessibilityHidden(true)
                 }

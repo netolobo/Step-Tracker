@@ -27,12 +27,12 @@ struct StandBarChart: View {
         ChartContainer(chartType: chartType) {
             Chart {
                 if let selectedData {
-                    ChartAnnotationView(data: selectedData, context: .activity)
+                    ChartAnnotationView(data: selectedData, chartType: chartType)
                 }
                 
                 if !chartData.isEmpty {
                     RuleMark(y: .value("Average", averageStandTime))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.goalColor)
                         .lineStyle(.init(lineWidth: 1, dash: [5]))
                         .accessibilityHidden(true)
                 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum ChartType {
+enum ChartType : Equatable {
     case standBar(average: Int)
     case exerciseBar(average: Int)
     case stepBar(average: Int)

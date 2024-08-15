@@ -24,7 +24,7 @@ struct WeightDiffBarChart: View {
         ChartContainer(chartType: chartType) {
             Chart {
                 if let selectedData {
-                    ChartAnnotationView(data: selectedData, context: .weight)
+                    ChartAnnotationView(data: selectedData, chartType: chartType)
                 }
                 
                 ForEach(chartData) { weightDiff in
