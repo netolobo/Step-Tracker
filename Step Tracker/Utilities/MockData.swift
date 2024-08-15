@@ -11,7 +11,7 @@ struct MockData {
     static var stand: [DateValueChartData] {
         var array: [HealthMetric] = []
         
-        for i in 0..<8 {
+        for i in 0..<7 {
             let metric = HealthMetric(date: Calendar.current.date(byAdding: .day, value: -i, to: .now)!,
                                       value: .random(in: 1...20))
             array.append(metric)
@@ -23,7 +23,7 @@ struct MockData {
     static var exercise: [DateValueChartData] {
         var array: [HealthMetric] = []
         
-        for i in 0..<8 {
+        for i in 0..<7 {
             let metric = HealthMetric(date: Calendar.current.date(byAdding: .day, value: -i, to: .now)!,
                                       value: .random(in: 30...180))
             array.append(metric)

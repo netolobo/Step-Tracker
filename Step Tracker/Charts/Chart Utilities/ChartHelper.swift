@@ -43,7 +43,7 @@ struct ChartHelper {
     
     static func averageDailyWeightDiffs(for weights: [HealthMetric]) -> [DateValueChartData]{
         var diffValues: [(date: Date, value: Double)] = []
-        
+                
         guard weights.count > 1 else { return [] }
         
         for i in 1..<weights.count {
@@ -64,7 +64,7 @@ struct ChartHelper {
             
             weekDayChartData.append(.init(date: firstValue.date, value: avgWeighDiff))
         }
-        
+
         return weekDayChartData
     }
 }
