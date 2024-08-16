@@ -144,7 +144,7 @@ struct ChartContainer<Content: View>: View {
         case .weightDiffBar:
             "Per Weekday (Last 15 Days)"
         case .standBar(let average):
-            "Last 7 days avg: \(average) hours"
+            "Last 7 days avg: \(average) minutes"
         case .exerciseBar(let average):
             "Last 7 days avg: \(average) minutes"
         }
@@ -157,11 +157,11 @@ struct ChartContainer<Content: View>: View {
         case .stepWeekdayPie:
             "Pie chart, average steps per weekday"
         case .weightLine( let average):
-            "Line chart, weight, average weight \(average.formatted(.number.precision(.fractionLength(1)))) pounds, goal weight: 155 pounds"
+            "Line chart, weight, average weight \(average.formatted(.number.precision(.fractionLength(1)))) kilograms, goal weight: 90 kilograms"
         case .weightDiffBar:
             "Bar chart, average weight difference per weekday"
         case .standBar(average: let average):
-            "Bar chart, stand hours, last 7 days, average stand time per day: \(average) hours"
+            "Bar chart, stand hours, last 7 days, average stand time per day: \(average) minutes"
         case .exerciseBar(average: let average):
             "Bar chart, exercise time, last 7 days, average exercuse time per day: \(average) minutes"
         }
