@@ -67,9 +67,21 @@ struct DashboardView: View {
         Task {
 //            await hkManager.addSimulatorData()
             do {
-//                async let moveTime = hkManager.fetchActivityTimeCount(.appleMoveTime, .minute())
-                async let standTime = hkManager.fetchActivityTimeCount(.appleStandTime, .hour())
-                async let exerciseTime = hkManager.fetchActivityTimeCount(.appleExerciseTime, .minute())
+//                async let moveTime = hkManager.fetchActivityTimeCount(
+//                    activity: .appleMoveTime,
+//                    unit: .smallCalorie(),
+//                    daysBack: 7
+//                )
+                async let standTime = hkManager.fetchActivityTimeCount(
+                    activity: .appleStandTime,
+                    unit: .minute(),
+                    daysBack: 7
+                )
+                async let exerciseTime = hkManager.fetchActivityTimeCount(
+                    activity: .appleExerciseTime,
+                    unit: .minute(),
+                    daysBack: 8
+                )
                 
                 async let steps = hkManager.fetchStepsCount()
                 async let weightsForLineChart = hkManager.fetchWeights(daysBack: 28)

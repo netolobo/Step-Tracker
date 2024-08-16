@@ -49,7 +49,7 @@ struct MockData {
         
         for i in 0..<28 {
             let metric = HealthMetric(date: Calendar.current.date(byAdding: .day, value: -i, to: .now)!,
-                                      value: .random(in: (160 + Double(i/3)...165 + Double(i/3))))
+                                      value: .random(in: (88 + Double(i/3)...95 + Double(i/3))))
             array.append(metric)
         }
         

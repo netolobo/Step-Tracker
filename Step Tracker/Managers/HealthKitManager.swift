@@ -23,12 +23,12 @@ import Observation
     /// Fetch last 7 days of activity time from HealthKit.
     /// - Parameter activity: Ex - .appleMoveTime
     /// - Returns: Array of ``HealthMetric``
-    func fetchActivityTimeCount(_ activity: HKQuantityTypeIdentifier, _ unit: HKUnit) async throws -> [HealthMetric] {
+    func fetchActivityTimeCount(activity: HKQuantityTypeIdentifier, unit: HKUnit, daysBack: Int) async throws -> [HealthMetric] {
         guard store.authorizationStatus(for: HKQuantityType(activity)) != .notDetermined else {
             throw STError.authNotDetermined
         }
 
-        let interval = createDateInterval(from: .now, daysBack: 7)
+        let interval = createDateInterval(from: .now, daysBack: daysBack)
         let queryPredicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end)
         let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(activity), predicate: queryPredicate)
         
@@ -48,7 +48,7 @@ import Observation
 //                case .appleMoveTime:
 //                    print("♥️ = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.1)")
 //                case .appleStandTime:
-//                    print("🩵 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.2)")
+//                    print("🩵 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 6.0)")
 //                case .appleExerciseTime:
 //                    print("💚 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.3)")
 //                default:
