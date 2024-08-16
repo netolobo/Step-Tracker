@@ -7,8 +7,10 @@
 
 import SwiftUI
 
-enum ChartType {
-    case setepBar(average: Int)
+enum ChartType : Equatable {
+    case standBar(average: Int)
+    case exerciseBar(average: Int)
+    case stepBar(average: Int)
     case stepWeekdayPie
     case weightLine(average: Double)
     case weightDiffBar
@@ -56,7 +58,7 @@ struct ChartContainer<Content: View>: View {
         VStack(alignment: .leading) {
             Label(title, systemImage: symbol)
                 .font(.title3.bold())
-                .foregroundColor(context == .steps ? .stepsColor : .weightColor)
+                .foregroundColor(defaultColor as? Color)
             
             Text(subtitle)
                 .font(.caption)
@@ -68,25 +70,40 @@ struct ChartContainer<Content: View>: View {
     
     var isNav: Bool {
         switch chartType {
-        case .setepBar(_), .weightLine(_):
+        case .stepBar(_), .weightLine(_):
             return true
-        case .stepWeekdayPie, .weightDiffBar:
+        case .stepWeekdayPie, .weightDiffBar, .standBar(_), .exerciseBar(_):
             return false
         }
     }
     
     var context: HealthMetricContext {
         switch chartType {
-        case .setepBar(_), .stepWeekdayPie:
+        case .stepBar(_), .stepWeekdayPie:
                 .steps
         case .weightLine(_), .weightDiffBar:
                 .weight
+        case .standBar(_), .exerciseBar(_):
+                .activity
+        }
+    }
+    
+    var defaultColor: any ShapeStyle {
+        switch chartType {
+        case .stepBar(_), .stepWeekdayPie:
+            return .stepsColor
+        case .exerciseBar(_):
+            return .exerciseColor
+        case .weightLine(_), .weightDiffBar:
+            return .weightColor
+        case .standBar(_):
+            return .standColor
         }
     }
     
     var title: String {
         switch chartType {
-        case .setepBar(_):
+        case .stepBar(_):
             "Steps"
         case .stepWeekdayPie:
             "Averages"
@@ -94,49 +111,65 @@ struct ChartContainer<Content: View>: View {
             "Weight"
         case .weightDiffBar:
             "Average Weight Change"
+        case .standBar(_):
+            "Stand"
+        case .exerciseBar(_):
+            "Exercise"
         }
     }
     
     var symbol: String {
         switch chartType {
-        case .setepBar(_):
+        case .stepBar(_):
             "figure.walk"
         case .stepWeekdayPie:
             "calendar"
         case .weightLine(_), .weightDiffBar:
             "figure"
+        case .standBar(_):
+            "figure.wave"
+        case .exerciseBar(_):
+            "figure.run"
         }
     }
     
     var subtitle: String {
         switch chartType {
-        case .setepBar(let average):
-            "AVg: \(average.formatted()) steps"
+        case .stepBar(let average):
+            "Avg: \(average.formatted()) steps"
         case .stepWeekdayPie:
             "Last 28 days"
         case .weightLine( let average):
-            "Avg: \(average.formatted(.number.precision(.fractionLength(1)))) lbs"
+            "Avg: \(average.formatted(.number.precision(.fractionLength(1)))) Kgs"
         case .weightDiffBar:
-            "Per Weekday (Last 28 Days)"
+            "Per Weekday (Last 15 Days)"
+        case .standBar(let average):
+            "Last 7 days avg: \(average) minutes"
+        case .exerciseBar(let average):
+            "Last 7 days avg: \(average) minutes"
         }
     }
     
     var accessibilityLabel: String {
         switch chartType {
-        case .setepBar(let average):
+        case .stepBar(let average):
             "Bar chart, step count, last 28 days, average steps per day: \(average) steps"
         case .stepWeekdayPie:
             "Pie chart, average steps per weekday"
         case .weightLine( let average):
-            "Line chart, weight, average weight \(average.formatted(.number.precision(.fractionLength(1)))) pounds, goal weight: 155 pounds"
+            "Line chart, weight, average weight \(average.formatted(.number.precision(.fractionLength(1)))) kilograms, goal weight: 90 kilograms"
         case .weightDiffBar:
-            "Bar chart, average wight difference per weekday"
+            "Bar chart, average weight difference per weekday"
+        case .standBar(average: let average):
+            "Bar chart, stand hours, last 7 days, average stand time per day: \(average) minutes"
+        case .exerciseBar(average: let average):
+            "Bar chart, exercise time, last 7 days, average exercuse time per day: \(average) minutes"
         }
     }
 }
 
 #Preview {
-    ChartContainer(chartType: .stepWeekdayPie) {
+    ChartContainer(chartType: .exerciseBar(average: 32)) {
         Text ("Chart goes here")
     }
 }

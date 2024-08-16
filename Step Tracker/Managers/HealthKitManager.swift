@@ -11,10 +11,61 @@ import Observation
 
 @Observable class HealthKitManager {
     let store = HKHealthStore()
-    let types: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
+    let shareTypes: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
+    let readTypes: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass), HKQuantityType(.appleMoveTime), HKQuantityType(.appleStandTime), HKQuantityType(.appleExerciseTime)]
     var stepData: [HealthMetric] = []
     var weightData: [HealthMetric] = []
     var weightDiffData: [HealthMetric] = []
+    var moveData: [HealthMetric] = []
+    var standData: [HealthMetric] = []
+    var exerciseData: [HealthMetric] = []
+    
+    /// Fetch last 7 days of activity time from HealthKit.
+    /// - Parameter activity: Ex - .appleMoveTime
+    /// - Returns: Array of ``HealthMetric``
+    func fetchActivityTimeCount(activity: HKQuantityTypeIdentifier, unit: HKUnit, daysBack: Int) async throws -> [HealthMetric] {
+        guard store.authorizationStatus(for: HKQuantityType(activity)) != .notDetermined else {
+            throw STError.authNotDetermined
+        }
+
+        let interval = createDateInterval(from: .now, daysBack: daysBack)
+        let queryPredicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end)
+        let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(activity), predicate: queryPredicate)
+        
+        let activityTimeQuery = HKStatisticsCollectionQueryDescriptor(
+                                                                predicate: samplePredicate,
+                                                                options: .cumulativeSum,
+                                                                anchorDate: interval.end,
+                                                                intervalComponents: .init(day: 1))
+        
+        do {
+            let activityTimeCounts = try await activityTimeQuery.result(for: store)
+            
+//            print("✅ print is working")
+//            
+//            for activitityTime in activityTimeCounts.statistics() {
+//                switch activity {
+//                case .appleMoveTime:
+//                    print("♥️ = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.1)")
+//                case .appleStandTime:
+//                    print("🩵 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 6.0)")
+//                case .appleExerciseTime:
+//                    print("💚 = \(activitityTime.sumQuantity()?.doubleValue(for: unit) ?? 0.3)")
+//                default:
+//                    break
+//                }
+//                
+//            }
+            
+            return activityTimeCounts.statistics().map {
+                .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: unit) ?? 0)
+            }
+        } catch HKError.errorNoData {
+            throw STError.noData
+        } catch {
+            throw STError.unbableToCompleteRequest
+        }
+    }
     
     /// Fetch last 28 days steps count from HealthKit
     /// - Returns: Array of ``HealthMetric``
@@ -68,7 +119,7 @@ import Observation
         do {
             let weights = try await weightsQuery.result(for: store)
             return weights.statistics().map{
-                .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .pound()) ?? 0)
+                .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .gramUnit(with: .kilo)) ?? 0)
             }
         } catch HKError.errorNoData {
             throw STError.noData

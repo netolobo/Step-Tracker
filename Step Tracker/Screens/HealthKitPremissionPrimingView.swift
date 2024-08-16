@@ -43,8 +43,8 @@ struct HealthKitPremissionPrimingView: View {
         .padding(30)
         .healthDataAccessRequest(
             store: hkManager.store,
-            shareTypes: hkManager.types,
-            readTypes: hkManager.types,
+            shareTypes: hkManager.shareTypes,
+            readTypes: hkManager.readTypes,
             trigger: isShowingHealthKitPermission) { result in
                 switch result {
                 case .success(_):

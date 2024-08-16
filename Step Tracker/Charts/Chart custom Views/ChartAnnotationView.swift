@@ -10,7 +10,37 @@ import Charts
 
 struct ChartAnnotationView: ChartContent {
     let data: DateValueChartData
-    let context: HealthMetricContext
+    let chartType: ChartType
+    
+    var fractionLenght: Int {
+        switch chartType {
+        case .stepBar(_), .stepWeekdayPie:
+            return 0
+        case .exerciseBar(_):
+            return 0
+        case .weightLine(_):
+            return 1
+        case .weightDiffBar:
+            return 1
+        case .standBar(_):
+            return 0
+        }
+    }
+    
+    var defaultColor: any ShapeStyle {
+        switch chartType {
+        case .stepBar(_), .stepWeekdayPie:
+            return .stepsColor
+        case .exerciseBar(_):
+            return .exerciseColor
+        case .weightLine(_):
+            return .weightColor
+        case .weightDiffBar:
+            return data.value >= 0 ? .positiveWeightColor : .negativeWeightColor
+        case .standBar(_):
+            return .standColor
+        }
+    }
     
     var body: some ChartContent {
         RuleMark(x: .value("Selected metric", data.date, unit: .day))
@@ -29,9 +59,9 @@ struct ChartAnnotationView: ChartContent {
             .font(.footnote.bold())
             .foregroundStyle(.secondary)
             
-            Text(data.value, format: .number.precision(.fractionLength(context == .steps ? 0 : 1)))
+            Text(data.value, format: .number.precision(.fractionLength(fractionLenght)))
                 .fontWeight(.heavy)
-                .foregroundStyle(context == .steps ? .stepsColor : .weightColor)
+                .foregroundStyle(defaultColor)
         }
         .padding(12)
         .background(

@@ -24,7 +24,7 @@ struct WeightDiffBarChart: View {
         ChartContainer(chartType: chartType) {
             Chart {
                 if let selectedData {
-                    ChartAnnotationView(data: selectedData, context: .weight)
+                    ChartAnnotationView(data: selectedData, chartType: chartType)
                 }
                 
                 ForEach(chartData) { weightDiff in
@@ -75,6 +75,11 @@ struct WeightDiffBarChart: View {
     }
 }
 
-#Preview {
+#Preview("Without data") {
+    WeightDiffBarChart(chartData: [])
+}
+
+#Preview("With data") {
     WeightDiffBarChart(chartData: MockData.weightsDiffs)
 }
+

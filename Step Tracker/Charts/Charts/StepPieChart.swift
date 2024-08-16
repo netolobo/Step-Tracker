@@ -95,6 +95,10 @@ struct StepPieChart: View {
     }
 }
 
-#Preview {
+#Preview("With data") {
     StepPieChart(chartData: ChartHelper.averageWeekDayCount(for: MockData.steps))
+}
+
+#Preview("Empty data") {
+    StepPieChart(chartData: [])
 }

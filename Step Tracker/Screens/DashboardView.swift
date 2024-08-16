@@ -31,10 +31,16 @@ struct DashboardView: View {
                         StepBarChart(chartData: ChartHelper.convert(data: hkManager.stepData))
                         
                         StepPieChart(chartData: ChartHelper.averageWeekDayCount(for: hkManager.stepData))
+                        
                     case .weight:
                         WeightLineChart(chartData: ChartHelper.convert(data: hkManager.weightData))
                         
                         WeightDiffBarChart(chartData: ChartHelper.averageDailyWeightDiffs(for: hkManager.weightDiffData))
+                        
+                    case .activity:
+                        StandBarChart(chartData: ChartHelper.convert(data: hkManager.standData))
+                        
+                        ExerciseBarChart(chartData: ChartHelper.convert(data: hkManager.exerciseData))
                     }
                 }
             }
@@ -55,22 +61,41 @@ struct DashboardView: View {
                 Text(fetchError.failureReason)
             }
         }
-        .tint(selectedStat == .steps ? .pink : .indigo)
     }
     
     private func fetchHealthData() {
         Task {
 //            await hkManager.addSimulatorData()
             do {
+//                async let moveTime = hkManager.fetchActivityTimeCount(
+//                    activity: .appleMoveTime,
+//                    unit: .smallCalorie(),
+//                    daysBack: 7
+//                )
+                async let standTime = hkManager.fetchActivityTimeCount(
+                    activity: .appleStandTime,
+                    unit: .minute(),
+                    daysBack: 7
+                )
+                async let exerciseTime = hkManager.fetchActivityTimeCount(
+                    activity: .appleExerciseTime,
+                    unit: .minute(),
+                    daysBack: 8
+                )
                 
                 async let steps = hkManager.fetchStepsCount()
                 async let weightsForLineChart = hkManager.fetchWeights(daysBack: 28)
-                async let weightsForDiffBarChart = hkManager.fetchWeights(daysBack: 29)
+                async let weightsForDiffBarChart = hkManager.fetchWeights(daysBack: 15)
+                
+//                hkManager.moveData = try await moveTime
+                hkManager.standData = try await standTime
+                hkManager.exerciseData = try await exerciseTime
                 
                 hkManager.stepData = try await steps
                 hkManager.weightData = try await weightsForLineChart
                 hkManager.weightDiffData = try await weightsForDiffBarChart
-            } catch STError.authNotDetermined{
+                
+            } catch STError.authNotDetermined {
                 isShowingPermissionPrimingSheet = true
             } catch STError.noData {
                 fetchError = .noData

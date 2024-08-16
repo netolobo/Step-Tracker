@@ -31,9 +31,9 @@ struct WeightLineChart: View {
         ChartContainer(chartType: chartType) {
             Chart {
                 if let selectedData {
-                    ChartAnnotationView(data: selectedData, context: .weight)
+                    ChartAnnotationView(data: selectedData, chartType: chartType)
                 }
-                RuleMark(y: .value("Goal", 155))
+                RuleMark(y: .value("Goal", 90))
                     .foregroundStyle(.goalColor)
                     .lineStyle(.init(lineWidth: 1, dash: [5]))
                     .accessibilityHidden(true)
@@ -94,6 +94,11 @@ struct WeightLineChart: View {
     }
 }
 
-#Preview {
+#Preview("Empty Data") {
+    WeightLineChart(chartData: [])
+}
+
+#Preview("With Data") {
     WeightLineChart(chartData: ChartHelper.convert(data: MockData.weights))
 }
+
