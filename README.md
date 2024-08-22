@@ -1,7 +1,7 @@
 # Health Tracker
-Step Tracker integrates Apple Health to show your latest step, weight, stand and exercise time data in animated, interactive Swift Charts. You can also see your average steps and weight gain/loss for each weekday for the past 15 days.
+Health Tracker integrates Apple Health to show your latest step, weight, stand and exercise time data in animated, interactive Swift Charts. You can also see your average steps and weight gain/loss for each weekday for the past 15 days.
 
-Step Tracker also allows you to upload new step or weight data to the Apple Health app.
+Health Tracker also allows you to upload new step or weight data to the Apple Health app.
 
 ### 🧰 Tech Used :
 * SwiftUI
