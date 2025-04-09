@@ -78,8 +78,7 @@ import Observation
         let queryPredicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end)
         let samplePredicate = HKSamplePredicate.quantitySample(type: HKQuantityType(.stepCount), predicate: queryPredicate)
         
-        let stepsQuery = HKStatisticsCollectionQueryDescriptor(
-                                                                predicate: samplePredicate,
+        let stepsQuery = HKStatisticsCollectionQueryDescriptor(predicate: samplePredicate,
                                                                 options: .cumulativeSum,
                                                                 anchorDate: interval.end,
                                                                 intervalComponents: .init(day: 1))
